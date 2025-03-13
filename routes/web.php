@@ -9,6 +9,8 @@ use App\Http\Controllers\Guest\DataClientController;
 use App\Http\Controllers\Guest\Service\ViewServiceController;
 use App\Mail\ForgotPassword;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Http\Request;
+use App\Http\Controllers\ServiceRegistrationController;
 
 
 Route::get('/', [ViewClientController::class, 'LandingPage'])->name('landing');
@@ -101,3 +103,24 @@ Route::prefix('dich-vu')->group(function () {
         return view('services.instagram-ads');
     })->name('services.instagram-ads');
 });
+
+// Add new routes for registration pages
+Route::view('/dang-ky-goi-facebook', 'dang-ky-goi-facebook');
+Route::view('/dang-ky-goi-tiktok', 'dang-ky-goi-tiktok');
+Route::view('/dang-ky-goi-instagram', 'dang-ky-goi-instagram');
+Route::view('/dang-ky-goi-combo', 'dang-ky-goi-combo');
+
+// Add new route for service registration handling form submission
+Route::post('/register-service', [ServiceRegistrationController::class, 'store'])
+    ->name('register.service');
+
+// Add new route for details page
+Route::view('/xem-chi-tiet', 'details')->name('details');
+
+// New routes for service feature pages
+Route::view('/services/chien-luoc-toi-uu', 'services.chien-luoc-toi-uu')->name('services.chien-luoc-toi-uu');
+Route::view('/services/giai-phap-toan-dien', 'services.giai-phap-toan-dien')->name('services.giai-phap-toan-dien');
+Route::view('/services/tu-van-chuyen-nghiep', 'services.tu-van-chuyen-nghiep')->name('services.tu-van-chuyen-nghiep');
+
+// Add new route for the “tu van ads” page
+Route::view('/tu-van-ads', 'tu-van-ads')->name('tu-van-ads');

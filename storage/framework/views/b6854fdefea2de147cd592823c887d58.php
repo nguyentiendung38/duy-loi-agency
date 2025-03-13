@@ -151,7 +151,7 @@
                             <li>Kinh nghiệm triển khai trên nhiều lĩnh vực chuyên gia</li>
                             <li>Quy trình phục vụ chuyên nghiệp với tính thân đồng hành mang lại kết quả cuối cùng</li>
                         </ul>
-                        <a href="/" class="btn3">Xem chi tiết</a>
+                        <a href="<?php echo e(route('details')); ?>" class="btn3">Xem chi tiết</a>
                     </div>
                 </div>
                 <!-- Right Section: Visual -->
@@ -186,7 +186,7 @@
                         <div class="cont-box">
                             <h4>Chiến lược tối ưu</h4>
                             <p class="margin-top-20">Sử dụng công nghệ tiên tiến để phân tích và tối ưu hóa chiến dịch quảng cáo của bạn.</p>
-                            <a href="/" class="btn4 margin-top-10">Khám phá ngay</a>
+                            <a href="<?php echo e(route('services.chien-luoc-toi-uu')); ?>" class="btn4 margin-top-10">Khám phá ngay</a>
                         </div>
                     </div>
                 </div>
@@ -196,7 +196,7 @@
                         <div class="cont-box">
                             <h4>Giải pháp toàn diện</h4>
                             <p class="margin-top-20">Tích hợp quảng cáo đa nền tảng, dễ dàng tùy chỉnh theo nhu cầu tiếp cận khách hàng mục tiêu.</p>
-                            <a href="/" class="btn4 margin-top-10">Khám phá ngay</a>
+                            <a href="<?php echo e(route('services.giai-phap-toan-dien')); ?>" class="btn4 margin-top-10">Khám phá ngay</a>
                         </div>
                     </div>
                 </div>
@@ -206,7 +206,7 @@
                         <div class="cont-box">
                             <h4>Tư vấn chuyên nghiệp</h4>
                             <p class="margin-top-20">Đội ngũ chuyên gia của chúng tôi luôn sẵn sàng hỗ trợ, đảm bảo chiến dịch của bạn đạt hiệu suất tối ưu.</p>
-                            <a href="/" class="btn4 margin-top-10">Khám phá ngay</a>
+                            <a href="<?php echo e(route('services.tu-van-chuyen-nghiep')); ?>" class="btn4 margin-top-10">Khám phá ngay</a>
                         </div>
                     </div>
                 </div>
@@ -238,7 +238,7 @@
                             <div class="col-4">
                                 <div class="single-about">
                                     <span>
-                                    <img src="/dist/images/page/iconfb.jpg" alt="Duy Loi Image" height="28.02" width="40">
+                                        <img src="/dist/images/page/iconfb.jpg" alt="Duy Loi Image" height="28.02" width="40">
                                     </span>
                                     <h5>Facebook</h5>
                                 </div>
@@ -246,7 +246,7 @@
                             <div class="col-4">
                                 <div class="single-about">
                                     <span>
-                                    <img src="/dist/images/page/icongram.jpg" alt="Duy Loi Image"  height="28.02" width="40">
+                                        <img src="/dist/images/page/icongram.jpg" alt="Duy Loi Image" height="28.02" width="40">
                                     </span>
                                     <h5>Instagram</h5>
                                 </div>
@@ -254,13 +254,13 @@
                             <div class="col-4">
                                 <div class="single-about">
                                     <span>
-                                    <img src="/dist/images/page/icontiktok.jpg" alt="Duy Loi Image"  height="28.02" width="40">
+                                        <img src="/dist/images/page/icontiktok.jpg" alt="Duy Loi Image" height="28.02" width="40">
                                     </span>
                                     <h5>TikTok</h5>
                                 </div>
                             </div>
                         </div>
-                        <a href="/" class="btn3">Xem chi tiết</a>
+                        <a href="<?php echo e(route('tu-van-ads')); ?>" class="btn3">Xem chi tiết</a>
                     </div>
                 </div>
             </div>
@@ -295,7 +295,7 @@
                             <li>Tăng tương tác</li>
                             <li>Báo cáo chi tiết</li>
                         </ul>
-                        <a href="/recharge/transfer" class="btn4">Đăng ký ngay</a>
+                        <a href="/dang-ky-goi-facebook" class="btn4">Đăng ký ngay</a>
                     </div>
                 </div>
                 <!-- Gói TikTok -->
@@ -311,7 +311,8 @@
                             <li>Tăng lượt xem &amp; tương tác</li>
                             <li>Báo cáo hiệu quả</li>
                         </ul>
-                        <a href="/recharge/transfer" class="btn4">Đăng ký ngay</a>
+                        <!-- Gói Facebook -->
+                        <a href="/dang-ky-goi-tiktok" class="btn4">Đăng ký ngay</a>
                     </div>
                 </div>
                 <!-- Gói Instagram -->
@@ -327,7 +328,7 @@
                             <li>Tăng tương tác ảnh &amp; story</li>
                             <li>Báo cáo chuyên sâu</li>
                         </ul>
-                        <a href="/recharge/transfer" class="btn4">Đăng ký ngay</a>
+                        <a href="/dang-ky-goi-instagram" class="btn4">Đăng ký ngay</a>
                     </div>
                 </div>
                 <!-- Gói Combo Ads -->
@@ -343,12 +344,66 @@
                             <li>Tối ưu doanh thu</li>
                             <li>Báo cáo tổng hợp</li>
                         </ul>
-                        <a href="/recharge/transfer" class="btn4">Đăng ký ngay</a>
+                        <a href="/dang-ky-goi-combo" class="btn4">Đăng ký ngay</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <!-- Additional Services Section -->
+    <section class="additional-services py-5">
+        <div class="container">
+            <div class="text-center mb-4">
+                <h2 class="display-5" style="color: #343a40;">
+                    <i class="fas fa-cogs"></i> Các Dịch Vụ Khác Liên Quan
+                </h2>
+                <p class="lead text-muted">
+                    Khám phá thêm các giải pháp giúp nâng cao hiệu quả kinh doanh của bạn.
+                </p>
+            </div>
+            <div class="row">
+                <!-- Service: Tối Ưu SEO -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-header bg-secondary text-white">
+                            <h3><i class="fas fa-search"></i> Tối Ưu SEO</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Đưa trang web của bạn lên top các công cụ tìm kiếm để tăng lượng truy cập chất lượng và khách hàng tiềm năng.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service: Digital Marketing -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-header bg-success text-white">
+                            <h3><i class="fas fa-chart-pie"></i> Digital Marketing</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Chiến lược marketing trực tuyến toàn diện giúp tiếp cận khách hàng mục tiêu và tối đa hóa lợi nhuận.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Service: Quản Lý Mạng Xã Hội -->
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 text-center">
+                        <div class="card-header bg-warning text-dark">
+                            <h3><i class="fas fa-users"></i> Quản Lý Mạng Xã Hội</h3>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                Xây dựng thương hiệu và chăm sóc cộng đồng trên các nền tảng mạng xã hội với chiến lược nội dung sáng tạo.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <!-- testi-area2 -->
     <div class="testi-area2 padding-top-110 padding-bottom-110">
         <div class="tshapes">
