@@ -1,0 +1,477 @@
+@extends('Layout.App')
+@section('title', $service->name)
+
+@section('content')
+<div class="main-content">
+    <div class="page-content"> 
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+
+                        <div class="card-body">
+                             <ul class="nav nav-justified nav-light nav-tabs    mb-4">
+                                <li class="nav-item">
+                                    <a class="nav-link active rounded-2" data-bs-toggle="tab" href="#tab_order">
+                                        <span class="nav-icon-wrap"><span class="feather-icon"><i
+                                                    class="icon ni ni-check-circle"></i></span></span>
+                                        <span class="nav-link-text">&nbsp;Đơn Hàng</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link  rounded-2" data-bs-toggle="tab" href="#profile2">
+                                        <span class="nav-icon-wrap"><span class="feather-icon"><i
+                                                    class="icon ni ni-card-view"></i></span></span>
+                                        <span class="nav-link-text">&nbsp;Danh Sách Đơn</span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tab_order">
+                                    <div class="row">
+                                        <div class="col-md-8 mb-3">
+                                            <form
+                                                action="{{ route('api.service.order', ['social' => $social->slug, 'service' => $service->slug]) }}"
+                                                method="POST" request="ptl">
+                                                <div class="form-group mb-3 ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label for="" class="form-label ">Link Order: </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <input type="text" class="form-control" name="link_order"
+                                                                placeholder="Nhập link hoặc ID bài viết cần tăng">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-3 ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label for="" class="form-label ">Máy Chủ: </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <div class="mb-2">
+                                                                @foreach ($server as $item)
+                                                                <div class="">
+
+
+
+                                                                    <div class="form-check">
+                                                                        <input type="radio"
+                                                                            id="serverserrvice{{ $item->server }}"
+                                                                            class="form-check-input"
+                                                                            min="{{ $item->min }}"
+                                                                            max="{{ $item->max }}" onchange="bill()"
+                                                                            name="server_service"
+                                                                            value="{{ $item->server }}"
+                                                                            price="{{ priceServer($item->id, Auth::user()->level) }}"
+                                                                            detail="{{ $item->description }}"
+                                                                            action="{{ $item->action }}">
+                                                                        <label class="form-check-label"
+                                                                            for="serverserrvice{{ $item->server }}">MC{{ $item->server }}
+                                                                         ⚡ {!! $item->title !!} &nbsp;<b
+                                                                                class="text-danger">{{ priceServer($item->id, Auth::user()->level) }}đ
+                                                                               </b> - @if ($item->status ==
+                                                                            'Active')<span class="badge rounded-pill bg-success text-white">Hoạt
+                                                                                động</span>
+                                                                            @else<span class="badge rounded-pill bg-warning text-white">Bảo Trì</span>
+                                                                            @endif</label>
+                                                                    </div>
+                                                                </div>
+                                                                @endforeach
+
+                                                            </div>
+                                                            <div id="details">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                               
+                                            <div class="form-group mb-3">
+                                            <div class="row">
+                                                    <div class="col-md-3">
+                                                <label for="" class="form-label">Số mắt: <div id="data-quantity">
+                                                    </div></label>  </div>
+                                                <div class="col-md-9">
+                                                    <input type="text" class="form-control mb-3" name="quantity" onkeyup="bill();" value="100" placeholder="Nhập số mắt cần tăng">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group mb-3">
+                                            <div class="row">
+                                                    <div class="col-md-3">
+                                                <label for="" class="form-label">Số phút: <div id="data-quantity">
+                                                    </div></label>
+                                                    </div>
+                                                <div class="col-md-9">
+                                                <input type="text" class="form-control mb-3"
+                                                        onkeyup="bill()" name="minutes" placeholder="Nhập số phút cần tăng">
+                                                         <div class="alert text-white bg-info text-center" role="alert">
+                                                    <strong>Tổng tiền = (Số mắt) x (Số phút) x (Giá 1 mắt)</strong>
+                                            </div>
+                                                </div>
+                                            </div>
+                                            </div>
+                                                <div class="form-group mb-3 ">
+                                                    <div class="row">
+                                                        <div class="col-md-3">
+                                                            <label for="" class="form-label ">Ghi Chú: </label>
+                                                        </div>
+                                                        <div class="col-md-9">
+                                                            <textarea class="form-control mb-3" name="note" rows="3"
+                                                                placeholder="Nhập ghi chú nếu cần"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-3">
+                                                    <div class="row">
+                                                        <div class="col-sm-12 text-center">
+                                                            <div class="alert text-white bg-success " role="alert">
+                                                                <h3 class="font-bold">Tổng thanh toán: <span
+                                                                        class="bold green"><span id="total_payment"
+                                                                            class="text-danger">0</span> coin</span>
+                                                                </h3>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group mb-3">
+                                                    <button type="submit" class="btn btn-block btn-primary btn-lg btn-nw btn-rounded bold"
+                                                        show="Bạn có muốn thanh toán đơn hàng?, chúng tôi sẽ không hoàn tiền với đơn đã thanh toán."><img
+                                                            src="/anhlamtilo/buy.svg" alt="" width="30" height="30">
+                                                        Thanh toán</button>
+                                                </div>
+                                            </form>
+                                        </div>
+
+                                        <div class="col-md-4">
+
+                                            <div class="alert bg-danger text-white" role="alert">
+                                                <h4>Lưu ý</h4>
+                                                - <b>Nghiêm cấm buff các đơn có nội dung vi phạm pháp luật, chính trị,
+                                                    đồ trụy... Nếu cố tình buff bạn
+                                                    sẽ
+                                                    bị trừ hết tiền và ban khỏi hệ thống vĩnh viễn, và phải chịu hoàn
+                                                    toàn trách nhiệm trước pháp
+                                                    luật</b>.
+                                                <br>
+                                                - <b>Nếu đơn đang chạy trên hệ thống mà bạn vẫn mua ở các hệ thống bên
+                                                    khác, nếu có tình trạng hụt,
+                                                    thiếu
+                                                    số lượng giữa 2 bên thì sẽ không được xử lí</b>. <br>
+                                                - <b>Đơn cài sai thông tin hoặc lỗi trong quá trình tăng hệ thống sẽ
+                                                    không hoàn lại tiền</b>. <br>
+                                                - <b>Nếu gặp lỗi hãy nhắn tin hỗ trợ phía bên phải góc màn hình hoặc vào
+                                                    mục liên hệ hỗ trợ để được hỗ
+                                                    trợ
+                                                    tốt nhất</b>.
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="tab-pane p-3" id="profile2" role="tabpanel">
+
+
+                                    <div class="table-responsive">
+
+                                        <table class="table table-bordered table-hover no-footer text-nowrap"
+                                            id="history-order">
+                                            <thead>
+                                                <tr role="row">
+                                                    <th class="text-center">ID</th>
+                                                    <th class="text-center">Mã đơn hàng</th>
+                                                    <th class="text-center">Thao tác</th>
+
+                                                    <th class="text-center">Link đơn</th>
+                                                    <th class="text-center">Máy chủ</th>
+                                                    <th class="text-center">Số lượng</th>
+                                                    <th class="text-center">Bắt đầu</th>
+                                                    <th class="text-center">Đã tăng</th>
+                                                    <th class="text-center">Số phút</th>
+                                                    <th class="text-center">Giá</th>
+                                                    <th class="text-center">Tổng thanh toán</th>
+                                                    <th class="text-center">Ghi chú</th>
+                                                    <th class="text-center">Trạng thái</th>
+                                                    <th class="text-center">Thời gian</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody role="alert" aria-live="polite" aria-relevant="all" class="">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="bs-example-modal-md" class="modal fade" tabindex="-1" aria-labelledby="bs-example-modal-md"
+                style="display: none;" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header d-flex align-items-center">
+                            <h4 class="modal-title" id="myModalLabel">
+                                Chi tiết đơn hàng #<span id="order_id"></span>
+                            </h4>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="p-3">
+                                <p class="text-primary mb-2">Chi tiết thanh toán</p>
+                                Số tiền đã thanh toán : <span id="payment-ptl" class="text-danger fw-semibold">0</span>
+                                VNĐ
+                            </div>
+                            <div class="p-3 mb-5">
+                                <p class="text-primary mb-2">Dòng thời gian</p>
+                                <!--   <span class="timeline-widget mb-0 position-relative mb-n5">
+                         </span> -->
+                                <div class="timeline-widget">
+
+                                </div>
+                            </div>
+                            <div class="p-3">
+                                <p class="text-primary mb-2">Chi tiết đơn hàng</p>
+
+                                <li class="p-1 text-start">Link: <span id="order_link"></span></li>
+                                <li class="p-1">Số lượng: <span id="order_quantity"></span></li>
+                                <li class="p-1">Bắt đầu: <span id="order_start"></span></li>
+                                <li class="p-1">Đã tăng: <span id="order_buff"></span></li>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger text-white font-medium waves-effect"
+                                data-bs-dismiss="modal">
+                                Đóng
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            @endsection
+@section('script')
+    <script>
+       function showDetail(server_order) {
+            var detail = server_order.attr('detail');
+            if (!detail) return;
+            $('#details').html(`
+                <div class="alert alert-info " role="alert">
+           
+                    <p>${detail}</p>
+                </div>
+            `);
+        }
+        function bill() {
+            var server_service = $('input[name="server_service"]:checked');
+            var price = server_service.attr('price');
+            var detail = server_service.attr('detail');
+            var min = server_service.attr('min');
+            var action = server_service.attr('action');
+            actionType(action);
+            var max = server_service.attr('max');
+            var seerver = server_service.val();
+            var quantity = $('input[name="quantity"]').val();
+            var minutes = $('input[name="minutes"]').val();
+            // hiện detail nếu click vào radio
+            showDetail(server_service);
+            if (!seerver) return;
+            $('#data-quantity').html(`Tối thiểu: ${formatNumber(min)} - Tối đa: ${formatNumber(max)}`).addClass('text-danger');
+            $('#total_payment1').html(`Tổng tiền thanh toán [<b class="text-primary">${price} đ</b>/ lượt]`);
+            var total_payment = Math.round(price * quantity * minutes) ?? 0;
+            $('#total_payment').html(formatNumber(total_payment));
+        }
+        $(document).ready(function() {
+            bill();
+        })
+
+function showModal(id) {
+            $('#bs-example-modal-md').modal('show');
+            $('#order_id').html(id);
+            $.ajax({
+                url: `{{ route('service.get.order') }}`,
+                type: 'POST',
+                data: {
+                    id: id,
+                    _token: '{{ csrf_token() }}'
+                },
+                dataType: 'json',
+                success: function(data) {
+                    if (data.status == 'success') {
+                        var order = data.data;
+                        $('#order_link').html(order.order_link);
+                        $('#order_quantity').html(formatNumber(order.quantity));
+                        $('#order_start').html(formatNumber(order.start));
+                        $('#order_buff').html(formatNumber(order.buff));
+
+                        $('#payment-ptl').html(formatNumber(order.total_payment));
+
+                        // xoá dữ liệu cũ
+                        $('.timeline-widget').html('');
+
+                        /* map */
+                        var history = JSON.parse(order.history);
+                        history.forEach(function(item) {
+var html = `
+<div class="d-grid gap-2">
+                 
+                    <div class="d-flex align-items-center">
+              <small class="flex-shrink-0 mx-2">
+                         
+                          <span class="visually">${item.time}</span>
+                         
+                      </small>        <div class="flex-shrink-0">
+                        <span class="p-1 d-block bg-${item.status} rounded-circle">
+                          <span class="visually-hidden">New alerts</span>
+                        </span>
+                      </div>
+                      <div class="flex-grow-1 mx-2">
+                        <h5 class="mb-0 d-grid text-start">
+                          <span class="text-truncate w-100">${item.title}</span>
+                        </h5>
+                      </div>
+                      
+                    </div>
+                  
+                  
+                  
+                  
+                </div>
+                `;
+
+                        $('.timeline-widget').append(html);
+                        })
+                    } else {
+                        $('#bs-example-modal-md').modal('hide');
+                    }
+                },
+                error: function() {
+                    toastr.error('Lỗi hệ thống, vui lòng thử lại sau');
+                }
+            })
+
+        }
+        createDataTable('#history-order', '{{ route('user.order.action', ['social' => $service->service_social, 'action' => $service->slug]) }}', [{
+                data: 'id'
+            },
+            {
+                data: 'order_code',
+                render: function(data, type, row) {
+                    return `
+                        <div class="badge bg-primary fs-6 text-white fw-semibold">
+                            ${data}
+                        </div>
+                    `;
+                }
+        
+                
+            },
+            {
+                data: null,
+                render: function(data, type, row) {
+                    return `
+                                   <button class="btn btn-primary btn-sm me-1" title="Xem chi tiết" onclick="showModal('${row.id}')">
+                                  <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="btn btn-danger btn-sm me-1" title="Hủy đơn" onclick="orderRefund('${row.id}')">
+                                  <i class="fas fa-trash"></i>
+                                    </button>
+                                    <button class="btn btn-success btn-sm me-1" title="Bảo hành" onclick="orderWarranty('${row.id}')">
+                                  <i class="fas fa-check-square"></i>
+                                    </button>
+                       
+                    `;
+                }
+            },
+         
+            {
+                data: 'order_link',
+            },
+            {
+                data: 'server_service',
+                render: function(data, type, row) {
+                    return `
+                        <span class="badge bg-primary bg-sm bg-dim">Máy chủ ${data}</span>
+                    `;
+                }
+            }, {
+                data: 'quantity',
+                render: function(data, type, row) {
+                    return `
+                          <b class="text-danger">${formatNumber(data)}</b>
+                    `;
+                }
+            },
+            {
+                data: 'start',
+                render: function(data, type, row) {
+                     return `
+                          <b class="text-warning">${formatNumber(data)}</b>
+                    `;
+                }
+            },
+            {
+                data: 'buff',
+                render: function(data, type, row) {
+                     return `
+                          <b class="text-success">${formatNumber(data)}</b>
+                    `;
+                }
+            },
+              {
+                data: null,
+                render: function(data, type, row) {
+                    return `
+                <b class="text-info">${JSON.parse(row.action).minutes}</b> phút
+                    `;
+                    
+                }
+            },
+             
+            {
+                data: 'price',
+                render: function(data, type, row) {
+                    return `
+                <b class="text-danger">${formatNumber(data)}</b> <sup>Đ</sup> 
+                  
+                    `;
+                }
+            },
+            {
+                data: 'total_payment',
+                render: function(data, type, row) {
+                    return `
+                          <b class="text-danger">${formatNumber(data)}</b> <sup>VNĐ</sup> 
+                    `;
+                }
+            },
+            {
+                data: 'note',
+                render: function(data, type, row) {
+                     return `<textarea class="form-control note" rows="3" readonly="" style="min-width: 200px;">${data}</textarea>`;
+                }
+            }, {
+                data: 'status_order',
+                render: function(data, type, row) {
+                    return data
+                }
+            },
+            
+            
+               {
+                data: 'created_at'
+            }
+        ])
+        swal1('Vui lòng đọc kĩ các chú ý dịch vụ trước khi lên đơn!');
+    </script>
+@endsection
