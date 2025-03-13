@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Khóa Học</title>
+    <title>Trang Chủ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://www.tanglikegiare.club/public/evntox/assets/css/bootstrap.min.css">
     <style>
@@ -83,7 +83,7 @@
 <body>
     @include('partials.menu')
     <div class="container">
-        <h1 class="welcome-text">Welcome to my course!</h1>
+        <h1 class="welcome-text">Chào mừng đến với trang chủ!</h1>
         <div class="course-container">
             <div class="course-card">
                 <h3>Truyền Nghề Facebook ADS Freelancer 102</h3>
